@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Suscribirme — Apadrina</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="header-placeholder"></div>
+
+<div class="container">
+  <h2 class="section-title" style="text-align:center;">Confirma tu apadrinamiento</h2>
+  <p class="section-sub" style="text-align:center;">Dos pasos rápidos: primero tus datos, después el pago.</p>
+
+  <div class="form-box" style="max-width:560px;">
+    <div style="display:flex; align-items:center; gap:14px;">
+      <div style="width:56px;height:56px;border-radius:12px;background-color:#D9B38C;"></div>
+      <div>
+        <b id="perro-nombre">Rocky</b>
+        <div style="font-size:13px;color:var(--gris);">Refugio Huellitas, Maipú</div>
+      </div>
+    </div>
+
+    <!-- PASO 1: Formulario de datos -->
+    <h3 style="margin-top:24px; font-size:16px;">1. Tus datos</h3>
+    <form id="checkout-form" action="https://formspree.io/f/TU_ID_DE_FORMSPREE" method="POST">
+      <input type="hidden" name="perro" id="input-perro" value="Rocky">
+      <input type="hidden" name="plan" id="input-plan" value="Compañero - $12.000/mes">
+
+      <label for="plan-select">Plan seleccionado</label>
+      <select id="plan-select" name="plan_legible" style="width:100%;padding:12px 14px;border:1px solid var(--borde);border-radius:10px;font-size:15px;">
+        <option value="Amigo - $5.000/mes">🐾 Amigo — $5.000/mes</option>
+        <option value="Compañero - $12.000/mes" selected>🐶 Compañero — $12.000/mes</option>
+        <option value="Familia Apadrina - $20.000/mes">🏡 Familia Apadrina — $20.000/mes</option>
+      </select>
+
+      <label for="nombre">Nombre completo</label>
+      <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required>
+
+      <label for="email">Correo electrónico</label>
+      <input type="email" id="email" name="email" placeholder="tucorreo@ejemplo.com" required>
+
+      <div class="summary-box">
+        <div class="summary-row"><span>Perro elegido</span><span id="resumen-perro">Rocky</span></div>
+        <div class="summary-row"><span id="resumen-plan-label">Plan Compañero</span><span id="resumen-plan-precio">$12.000</span></div>
+        <div class="summary-row total"><span>Total mensual</span><span id="resumen-total">$12.000 CLP</span></div>
+      </div>
+
+      <button type="submit" id="btn-enviar-datos" class="btn btn-primary" style="width:100%; margin-top:20px;">Enviar mis datos</button>
+    </form>
+
+    <!-- PASO 2: Pago (se habilita después de enviar el formulario) -->
+    <div id="paso-pago" style="margin-top:28px; padding-top:24px; border-top:1px dashed var(--borde);">
+      <h3 style="font-size:16px; margin-bottom:8px;">2. Confirma tu pago</h3>
+      <p style="font-size:13px; color:var(--gris); margin-top:0;">Después de enviar tus datos, haz clic abajo para ir a la plataforma segura de pago y activar tu suscripción mensual.</p>
+
+      <div class="checkbox-group" style="display:flex; align-items:center; gap:8px; margin:14px 0;">
+        <input type="checkbox" id="confirm-data-checkbox">
+        <label for="confirm-data-checkbox" style="font-size:13px;">Ya envié mis datos en el paso 1.</label>
+      </div>
+
+      <a href="#" id="btn-pagar" class="btn btn-secondary" style="width:100%; text-align:center; display:block; pointer-events:none; opacity:0.5;">Pagar suscripción con MercadoPago</a>
+      <p style="font-size:12px; color:var(--gris); text-align:center; margin-top:12px;">Puedes cancelar tu suscripción cuando quieras escribiéndonos por WhatsApp o Instagram.</p>
+    </div>
+  </div>
+</div>
+
+<div id="footer-placeholder"></div>
+
+<script src="main.js"></script>
+<script>
+  // Links de suscripción de MercadoPago por nivel (reemplazar cuando estén creados los planes reales)
+  const LINKS_MERCADOPAGO = {
+    'Amigo - $5.000/mes': 'https://link.mercadopago.cl/apadrina-amigo',
+    'Compañero - $12.000/mes': 'https://link.mercadopago.cl/apadrina-companero',
+    'Familia Apadrina - $20.000/mes': 'https://link.mercadopago.cl/apadrina-familia',
+  };
+
+  const PRECIOS = {
+    'Amigo - $5.000/mes': '$5.000',
+    'Compañero - $12.000/mes': '$12.000',
+    'Familia Apadrina - $20.000/mes': '$20.000',
+  };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // Lee el perro y el plan desde la URL (ej. checkout.html?perro=Rocky&tier=companero)
+    const params = new URLSearchParams(window.location.search);
+    const perro = params.get('perro') || 'Rocky';
+    const tierParam = params.get('tier');
+
+    const tierToPlan = {
+      amigo: 'Amigo - $5.000/mes',
+      'compañero': 'Compañero - $12.000/mes',
+      companero: 'Compañero - $12.000/mes',
+      familia: 'Familia Apadrina - $20.000/mes',
+    };
+
+    const planSelect = document.getElementById('plan-select');
+    if (tierParam && tierToPlan[tierParam]) {
+      planSelect.value = tierToPlan[tierParam];
+    }
+
+    document.getElementById('perro-nombre').textContent = perro;
+    document.getElementById('resumen-perro').textContent = perro;
+    document.getElementById('input-perro').value = perro;
+
+    function actualizarResumen() {
+      const planValue = planSelect.value;
+      document.getElementById('input-plan').value = planValue;
+      document.getElementById('resumen-plan-label').textContent = 'Plan ' + planValue.split(' - ')[0];
+      document.getElementById('resumen-plan-precio').textContent = PRECIOS[planValue];
+      document.getElementById('resumen-total').textContent = PRECIOS[planValue] + ' CLP';
+
+      const btnPagar = document.getElementById('btn-pagar');
+      btnPagar.href = LINKS_MERCADOPAGO[planValue];
+    }
+
+    planSelect.addEventListener('change', actualizarResumen);
+    actualizarResumen();
+
+    // Habilita el botón de pago solo cuando el usuario confirma que ya envió el formulario
+    const checkbox = document.getElementById('confirm-data-checkbox');
+    const btnPagar = document.getElementById('btn-pagar');
+    checkbox.addEventListener('change', () => {
+      if (checkbox.checked) {
+        btnPagar.style.pointerEvents = 'auto';
+        btnPagar.style.opacity = '1';
+        btnPagar.classList.remove('btn-secondary');
+        btnPagar.classList.add('btn-primary');
+      } else {
+        btnPagar.style.pointerEvents = 'none';
+        btnPagar.style.opacity = '0.5';
+        btnPagar.classList.remove('btn-primary');
+        btnPagar.classList.add('btn-secondary');
+      }
+    });
+
+    // Cuando el formulario se envía, tildamos el checkbox automáticamente
+    document.getElementById('checkout-form').addEventListener('submit', () => {
+      setTimeout(() => {
+        checkbox.checked = true;
+        checkbox.dispatchEvent(new Event('change'));
+      }, 300);
+    });
+  });
+</script>
+</body>
+</html>
