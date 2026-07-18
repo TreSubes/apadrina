@@ -117,6 +117,11 @@ a { text-decoration: none; color: inherit; }
   margin: 0 auto 28px;
 }
 
+/* Banner de escritorio por defecto; se reemplaza por la versión vertical en mobile (ver media query abajo) */
+.hero-banner {
+  background-image: url('Imagenes/Banners/bannersperritos.png');
+}
+
 .badge {
   display: inline-block;
   background: #FFE8D9;
@@ -407,7 +412,10 @@ footer {
   .hero h1 { font-size: 28px; }
   .hero p { font-size: 15px; }
 
-  .hero-banner { min-height: 360px; }
+  .hero-banner {
+    min-height: 360px;
+    background-image: url('Imagenes/Banners/bannersperritoscelular.png');
+  }
   .hero-banner-content h1 { font-size: 28px; }
   .hero-banner-content p { font-size: 15px; }
 
