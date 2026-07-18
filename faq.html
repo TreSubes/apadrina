@@ -11,40 +11,102 @@
 
 <div id="header-placeholder"></div>
 
-<div class="container">
-  <h2 class="section-title">Preguntas frecuentes</h2>
-  <p class="section-sub">Todo lo que necesitas saber antes de apadrinar.</p>
+<section class="hero" style="padding-bottom:36px;">
+  <span class="badge">Antes de que te suscribas</span>
+  <h1 style="font-size:32px;">Todo lo que capaz te estás preguntando</h1>
+  <p>Sin letra chica, sin vueltas. Si igual te queda una duda, escríbenos y te respondemos como personas, no como bot.</p>
+</section>
 
-  <div class="grid" style="grid-template-columns: 1fr;">
-    <div class="card"><div class="card-body">
-      <h3>¿Qué pasa si cancelo mi suscripción?</h3>
-      <p class="meta">Puedes cancelar cuando quieras desde tu panel. Dejarás de recibir cobros el mes siguiente y el animal seguirá disponible para otros padrinos.</p>
-    </div></div>
-    <div class="card"><div class="card-body">
-      <h3>¿El dinero llega directo al refugio?</h3>
-      <p class="meta">Sí. Apadrina retiene una comisión pequeña para cubrir costos de procesamiento y operación, y transfiere el resto directamente al refugio cada mes.</p>
-    </div></div>
-    <div class="card"><div class="card-body">
-      <h3>¿Puedo apadrinar más de un animal?</h3>
-      <p class="meta">Sí, puedes tener suscripciones activas a varios perros o gatos al mismo tiempo, cada una con su propio nivel.</p>
-    </div></div>
-    <div class="card"><div class="card-body">
-      <h3>¿Cómo sé que mi aporte realmente ayuda al animal?</h3>
-      <p class="meta">Cada refugio se compromete a mandar fotos y actualizaciones semanales reales a través de tu panel de padrino.</p>
-    </div></div>
-    <div class="card"><div class="card-body">
-      <h3>¿Puedo adoptar al animal que apadrino?</h3>
-      <p class="meta">Sí, los padrinos tienen prioridad de adopción si el refugio determina que el animal está listo y la familia es compatible.</p>
-    </div></div>
-    <div class="card"><div class="card-body">
-      <h3>¿Qué métodos de pago aceptan?</h3>
-      <p class="meta">Tarjetas de crédito y débito a través de una pasarela de pago segura, con cobro automático mensual.</p>
-    </div></div>
+<div class="container" style="max-width:760px;">
+  <div class="faq-acordeon">
+
+    <div class="faq-item">
+      <button class="faq-pregunta">
+        <span>😢 Me arrepiento a mitad de camino, ¿qué pasa?</span>
+        <span class="faq-flecha">＋</span>
+      </button>
+      <div class="faq-respuesta">
+        <p>Cancelas cuando quieras desde tu panel, sin explicaciones ni multas. Dejas de pagar el mes siguiente, y tu peludo sigue esperando a alguien más que lo acompañe.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-pregunta">
+        <span>💸 ¿La plata llega de verdad al refugio, o se pierde en el camino?</span>
+        <span class="faq-flecha">＋</span>
+      </button>
+      <div class="faq-respuesta">
+        <p>Casi todo. Apadrina se queda con una comisión chica para cubrir el proceso de pago y mantener la plataforma funcionando — el resto va directo al refugio, cada mes, sin intermediarios raros.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-pregunta">
+        <span>🐾🐱 ¿Puedo tener más de un peludo a la vez?</span>
+        <span class="faq-flecha">＋</span>
+      </button>
+      <div class="faq-respuesta">
+        <p>Todos los que tu corazón (y tu billetera) te permitan. Podés apadrinar a varios al mismo tiempo, cada uno con su propio nivel y sus propias novedades.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-pregunta">
+        <span>📸 ¿Y si dono y nunca sé qué pasó con él o ella?</span>
+        <span class="faq-flecha">＋</span>
+      </button>
+      <div class="faq-respuesta">
+        <p>Eso no va a pasar. Cada refugio se compromete a mandarte fotos y novedades reales, semana a semana, directo a tu panel. Vas a ver cómo cambia, no solo un recibo de pago.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-pregunta">
+        <span>🏡 ¿Apadrinar puede terminar en adopción?</span>
+        <span class="faq-flecha">＋</span>
+      </button>
+      <div class="faq-respuesta">
+        <p>Ojalá, para eso también estamos. Si el refugio ve que ya está listo y ustedes hacen buena dupla, los padrinos tienen prioridad para adoptar.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-pregunta">
+        <span>💳 ¿Cómo se cobra exactamente?</span>
+        <span class="faq-flecha">＋</span>
+      </button>
+      <div class="faq-respuesta">
+        <p>Con tarjeta de crédito o débito, a través de una pasarela de pago segura. El cobro es automático cada mes — no tenés que acordarte de pagar ni volver a la página.</p>
+      </div>
+    </div>
+
   </div>
 </div>
 
 <div id="footer-placeholder"></div>
 
 <script src="main.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.faq-item').forEach((item) => {
+      const boton = item.querySelector('.faq-pregunta');
+      const respuesta = item.querySelector('.faq-respuesta');
+
+      boton.addEventListener('click', () => {
+        const yaAbierto = item.classList.contains('open');
+
+        document.querySelectorAll('.faq-item').forEach((otro) => {
+          otro.classList.remove('open');
+          otro.querySelector('.faq-respuesta').style.maxHeight = null;
+        });
+
+        if (!yaAbierto) {
+          item.classList.add('open');
+          respuesta.style.maxHeight = respuesta.scrollHeight + 'px';
+        }
+      });
+    });
+  });
+</script>
 </body>
 </html>

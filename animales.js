@@ -43,7 +43,7 @@ const animalesDB = {
     gastoMensual: 22000,
     padrinosActivos: 1,
     mesesEnRefugio: 4,
-    descripcion: 'Cachorra rescatada junto a su camada. Es muy activa, le encanta jugar con otros perros y está aprendiendo a caminar con correa. Ideal para una familia con energía.',
+    descripcion: 'Cachorra rescatada junto a su camada. Es muy activa, le encanta jugar con otros peludos del refugio y está aprendiendo a caminar con correa. Ideal para una familia con energía.',
     imagenes: ['mora-1.jpg'],
     colorPlaceholder: '#C9A87C',
   },

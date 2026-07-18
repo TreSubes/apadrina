@@ -50,8 +50,8 @@
     const animal = (typeof animalesDB !== 'undefined') ? animalesDB[idAnimal] : null;
 
     if (!animal) {
-      document.getElementById('nombre-animal').textContent = 'No encontramos este animal';
-      document.getElementById('descripcion-animal').textContent = 'Puede que el link esté mal escrito. Volvé al inicio para ver los animales disponibles.';
+      document.getElementById('nombre-animal').textContent = 'No encontramos a este peludo';
+      document.getElementById('descripcion-animal').textContent = 'Puede que el link esté mal escrito. Volvé al inicio para ver los peludos disponibles.';
       return;
     }
 
@@ -79,7 +79,7 @@
     const niveles = [
       { key: 'amigo', emoji: '🐾', nombre: 'Amigo', precio: 5000, destacado: false,
         items: [`1 foto semanal de ${animal.nombre}`, 'Certificado digital de apadrinamiento', 'Acceso al chat con el refugio'] },
-      { key: 'companero', emoji: '🐶', nombre: 'Compañero', precio: 12000, destacado: true,
+      { key: 'companero', emoji: '💛', nombre: 'Compañero', precio: 12000, destacado: true,
         items: ['Fotos y videos semanales', 'Mensajes personalizados del cuidador', `Certificado + nombre en el perfil de ${animal.nombre}`, 'Novedades sobre su salud y avances'] },
       { key: 'familia', emoji: '🏡', nombre: 'Familia Apadrina', precio: 20000, destacado: false,
         items: ['Todo lo del plan Compañero', 'Videollamada trimestral con el refugio', 'Prioridad si decides adoptarlo', 'Invitación a visitas presenciales'] },
