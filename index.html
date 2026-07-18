@@ -10,54 +10,22 @@
 
 <div id="header-placeholder"></div>
 
-<section class="hero">
-  <span class="badge">Región Metropolitana · Chile</span>
-  <h1>Apadrina un perro. Recibe su cariño cada semana.</h1>
-  <p>Suscríbete desde $5.000/mes y conéctate directo con un perro de un refugio de la RM: fotos, videos y mensajes semanales de su cuidador, mientras lo ayudas a comer, sanar y algún día encontrar hogar.</p>
-  <a href="perfil-perro.html" class="btn btn-primary">Ver perros disponibles</a>
+<section class="hero-banner" style="background-image:url('Imagenes/Banners/bannersperritos.png');">
+  <div class="hero-banner-overlay"></div>
+  <div class="hero-banner-content">
+    <span class="badge">Región Metropolitana · Chile</span>
+    <h1>Apadrina un perro. Recibe su cariño cada semana.</h1>
+    <p>Suscríbete desde $5.000/mes y conéctate directo con un perro de un refugio de la RM: fotos, videos y mensajes semanales de su cuidador, mientras lo ayudas a comer, sanar y algún día encontrar hogar.</p>
+    <a href="#animales" class="btn btn-primary">Ver perros disponibles</a>
+  </div>
 </section>
 
-<div class="container">
+<div class="container" id="animales">
   <h2 class="section-title">Perros esperando un padrino</h2>
   <p class="section-sub">Cada perfil viene directo de un refugio aliado en la Región Metropolitana.</p>
 
-  <div class="grid">
-    <a href="perfil-perro.html" class="card">
-      <div class="card-img" style="background-color:#D9B38C;"></div>
-      <div class="card-body">
-        <h3>Rocky</h3>
-        <div class="meta">3 años · Refugio Huellitas, Maipú</div>
-        <div class="progress-bar"><div class="progress-fill" style="width:60%"></div></div>
-        <div class="meta">3 padrinos activos</div>
-      </div>
-    </a>
-    <a href="perfil-perro.html" class="card">
-      <div class="card-img" style="background-color:#C9A87C;"></div>
-      <div class="card-body">
-        <h3>Mora</h3>
-        <div class="meta">1 año · Refugio Patitas Felices, Puente Alto</div>
-        <div class="progress-bar"><div class="progress-fill" style="width:30%"></div></div>
-        <div class="meta">1 padrino activo</div>
-      </div>
-    </a>
-    <a href="perfil-perro.html" class="card">
-      <div class="card-img" style="background-color:#B08968;"></div>
-      <div class="card-body">
-        <h3>Toby</h3>
-        <div class="meta">5 años · Refugio San Roque, Ñuñoa</div>
-        <div class="progress-bar"><div class="progress-fill" style="width:85%"></div></div>
-        <div class="meta">5 padrinos activos</div>
-      </div>
-    </a>
-    <a href="perfil-perro.html" class="card">
-      <div class="card-img" style="background-color:#E0C097;"></div>
-      <div class="card-body">
-        <h3>Luna</h3>
-        <div class="meta">2 años · Refugio Huellitas, Maipú</div>
-        <div class="progress-bar"><div class="progress-fill" style="width:15%"></div></div>
-        <div class="meta">1 padrino activo</div>
-      </div>
-    </a>
+  <div class="grid" id="grid-animales">
+    <!-- Las tarjetas se generan automáticamente desde animales.js -->
   </div>
 </div>
 
@@ -81,6 +49,39 @@
 
 <div id="footer-placeholder"></div>
 
+<script src="animales.js"></script>
 <script src="main.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const grid = document.getElementById('grid-animales');
+    if (!grid || typeof animalesDB === 'undefined') return;
+
+    const animales = Object.values(animalesDB);
+
+    grid.innerHTML = animales.map((animal) => {
+      const fotoPrincipal = (animal.imagenes && animal.imagenes[0])
+        ? `Imagenes/Mascotas/${animal.imagenes[0]}`
+        : '';
+      const fondoImagen = fotoPrincipal
+        ? `background-image:url('${fotoPrincipal}');`
+        : `background-color:${animal.colorPlaceholder || '#D9B38C'};`;
+
+      // La barra de progreso es solo referencial: asumimos que con 4 padrinos el animal queda cubierto.
+      const progreso = Math.min(100, Math.round((animal.padrinosActivos / 4) * 100));
+
+      return `
+        <a href="perfil-perro.html?id=${animal.id}" class="card">
+          <div class="card-img" style="${fondoImagen}"></div>
+          <div class="card-body">
+            <h3>${animal.nombre}</h3>
+            <div class="meta">${animal.edad} · ${animal.refugio}, ${animal.comuna}</div>
+            <div class="progress-bar"><div class="progress-fill" style="width:${progreso}%"></div></div>
+            <div class="meta">${animal.padrinosActivos} padrino${animal.padrinosActivos === 1 ? '' : 's'} activo${animal.padrinosActivos === 1 ? '' : 's'}</div>
+          </div>
+        </a>
+      `;
+    }).join('');
+  });
+</script>
 </body>
 </html>

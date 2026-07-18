@@ -16,10 +16,10 @@
 
   <div class="form-box" style="max-width:560px;">
     <div style="display:flex; align-items:center; gap:14px;">
-      <div style="width:56px;height:56px;border-radius:12px;background-color:#D9B38C;"></div>
+      <div id="perro-foto" style="width:56px;height:56px;border-radius:12px;background-color:#D9B38C;background-size:cover;background-position:center;"></div>
       <div>
         <b id="perro-nombre">Rocky</b>
-        <div style="font-size:13px;color:var(--gris);">Refugio Huellitas, Maipú</div>
+        <div style="font-size:13px;color:var(--gris);" id="perro-refugio">Refugio Huellitas, Maipú</div>
       </div>
     </div>
 
@@ -69,6 +69,7 @@
 
 <div id="footer-placeholder"></div>
 
+<script src="animales.js"></script>
 <script src="main.js"></script>
 <script>
   // Links de suscripción de MercadoPago por nivel (reemplazar cuando estén creados los planes reales)
@@ -85,9 +86,11 @@
   };
 
   document.addEventListener('DOMContentLoaded', () => {
-    // Lee el perro y el plan desde la URL (ej. checkout.html?perro=Rocky&tier=companero)
+    // Lee el perro y el plan desde la URL (ej. checkout.html?id=rocky&perro=Rocky&tier=companero)
     const params = new URLSearchParams(window.location.search);
-    const perro = params.get('perro') || 'Rocky';
+    const idAnimal = params.get('id');
+    const animal = (idAnimal && typeof animalesDB !== 'undefined') ? animalesDB[idAnimal] : null;
+    const perro = animal ? animal.nombre : (params.get('perro') || 'Rocky');
     const tierParam = params.get('tier');
 
     const tierToPlan = {
@@ -105,6 +108,17 @@
     document.getElementById('perro-nombre').textContent = perro;
     document.getElementById('resumen-perro').textContent = perro;
     document.getElementById('input-perro').value = perro;
+
+    if (animal) {
+      document.getElementById('perro-refugio').textContent = `${animal.refugio}, ${animal.comuna}`;
+      const fotoEl = document.getElementById('perro-foto');
+      const fotoPrincipal = (animal.imagenes && animal.imagenes[0]) ? `Imagenes/Mascotas/${animal.imagenes[0]}` : '';
+      if (fotoPrincipal) {
+        fotoEl.style.backgroundImage = `url('${fotoPrincipal}')`;
+      } else {
+        fotoEl.style.backgroundColor = animal.colorPlaceholder || '#D9B38C';
+      }
+    }
 
     function actualizarResumen() {
       const planValue = planSelect.value;

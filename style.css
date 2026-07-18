@@ -70,6 +70,53 @@ a { text-decoration: none; color: inherit; }
 .hero h1 { font-size: 40px; margin-bottom: 12px; max-width: 700px; margin-inline: auto; }
 .hero p { font-size: 18px; color: var(--gris); max-width: 600px; margin: 0 auto 28px; }
 
+/* Banner de inicio con foto de fondo (se usa solo en index.html) */
+.hero-banner {
+  position: relative;
+  min-height: 480px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+}
+
+.hero-banner-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(74,52,39,0.55) 0%, rgba(74,52,39,0.75) 100%);
+}
+
+.hero-banner-content {
+  position: relative;
+  z-index: 2;
+  padding: 24px;
+  color: #fff;
+}
+
+.hero-banner-content .badge {
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+}
+
+.hero-banner-content h1 {
+  font-size: 42px;
+  margin-bottom: 12px;
+  max-width: 700px;
+  margin-inline: auto;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.35);
+}
+
+.hero-banner-content p {
+  font-size: 18px;
+  color: #fff;
+  opacity: 0.95;
+  max-width: 600px;
+  margin: 0 auto 28px;
+}
+
 .badge {
   display: inline-block;
   background: #FFE8D9;
@@ -359,6 +406,10 @@ footer {
   .hero { padding: 40px 18px; }
   .hero h1 { font-size: 28px; }
   .hero p { font-size: 15px; }
+
+  .hero-banner { min-height: 360px; }
+  .hero-banner-content h1 { font-size: 28px; }
+  .hero-banner-content p { font-size: 15px; }
 
   .container { padding: 28px 16px; }
 

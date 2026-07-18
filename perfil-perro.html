@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rocky — Apadrina</title>
+<title id="page-title">Apadrina</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -12,67 +12,90 @@
 
 <div class="container">
   <div class="dog-hero">
-    <div class="dog-photo" style="background-color:#D9B38C;"></div>
+    <div class="dog-photo" id="foto-animal"></div>
     <div>
-      <span class="badge">Refugio Huellitas · Maipú, RM</span>
-      <h1 style="margin:0 0 6px;">Rocky</h1>
-      <p style="color:var(--gris); margin-top:0;">Mestizo, 3 años, macho. Llegó al refugio hace 8 meses tras ser encontrado en la calle. Es juguetón, le encanta el sol de la tarde y todavía le tiene miedo a los ruidos fuertes. Está en proceso de sociabilización mientras busca, algún día, una familia.</p>
+      <span class="badge" id="badge-refugio"></span>
+      <h1 style="margin:0 0 6px;" id="nombre-animal"></h1>
+      <p style="color:var(--gris); margin-top:0;" id="descripcion-animal"></p>
 
       <div class="stat-box">
-        <div class="stat"><b>$28.000</b><span>gasto mensual aprox.</span></div>
-        <div class="stat"><b>3</b><span>padrinos activos</span></div>
-        <div class="stat"><b>8</b><span>meses en el refugio</span></div>
+        <div class="stat"><b id="stat-gasto"></b><span>gasto mensual aprox.</span></div>
+        <div class="stat"><b id="stat-padrinos"></b><span>padrinos activos</span></div>
+        <div class="stat"><b id="stat-meses"></b><span>meses en el refugio</span></div>
       </div>
 
-      <p style="font-size:14px; color:var(--gris);">Tu aporte mensual ayuda directamente a la comida, vacunas y cuidado veterinario de Rocky, y te conecta semana a semana con su historia.</p>
+      <p style="font-size:14px; color:var(--gris);" id="texto-aporte"></p>
     </div>
   </div>
 </div>
 
 <div class="container" id="niveles">
-  <h2 class="section-title">Elige tu nivel de apadrinamiento</h2>
+  <h2 class="section-title" id="titulo-nombre-animal">Elige tu nivel de apadrinamiento</h2>
   <p class="section-sub">Todos los niveles incluyen updates semanales por chat. Cancela cuando quieras.</p>
 
-  <div class="tiers">
-    <div class="tier" onclick="location.href='checkout.html?perro=Rocky&tier=amigo'">
-      <h4>🐾 Amigo</h4>
-      <div class="price">$5.000 <span>/ mes</span></div>
-      <ul>
-        <li>1 foto semanal de Rocky</li>
-        <li>Certificado digital de apadrinamiento</li>
-        <li>Acceso al chat con el refugio</li>
-      </ul>
-      <button class="btn btn-secondary" style="width:100%;">Elegir</button>
-    </div>
-
-    <div class="tier selected" onclick="location.href='checkout.html?perro=Rocky&tier=companero'">
-      <h4>🐶 Compañero</h4>
-      <div class="price">$12.000 <span>/ mes</span></div>
-      <ul>
-        <li>Fotos y videos semanales</li>
-        <li>Mensajes personalizados del cuidador</li>
-        <li>Certificado + nombre en el perfil de Rocky</li>
-        <li>Novedades sobre su salud y avances</li>
-      </ul>
-      <button class="btn btn-primary" style="width:100%;">Elegir (más popular)</button>
-    </div>
-
-    <div class="tier" onclick="location.href='checkout.html?perro=Rocky&tier=familia'">
-      <h4>🏡 Familia Apadrina</h4>
-      <div class="price">$20.000 <span>/ mes</span></div>
-      <ul>
-        <li>Todo lo del plan Compañero</li>
-        <li>Videollamada trimestral con el refugio</li>
-        <li>Prioridad si decides adoptarlo</li>
-        <li>Invitación a visitas presenciales</li>
-      </ul>
-      <button class="btn btn-secondary" style="width:100%;">Elegir</button>
-    </div>
+  <div class="tiers" id="tiers-container">
+    <!-- Los niveles se generan dinámicamente para incluir el nombre del animal en cada link -->
   </div>
 </div>
 
 <div id="footer-placeholder"></div>
 
+<script src="animales.js"></script>
 <script src="main.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+    const idAnimal = params.get('id') || 'rocky';
+    const animal = (typeof animalesDB !== 'undefined') ? animalesDB[idAnimal] : null;
+
+    if (!animal) {
+      document.getElementById('nombre-animal').textContent = 'No encontramos este animal';
+      document.getElementById('descripcion-animal').textContent = 'Puede que el link esté mal escrito. Volvé al inicio para ver los animales disponibles.';
+      return;
+    }
+
+    document.getElementById('page-title').textContent = animal.nombre + ' — Apadrina';
+    document.getElementById('badge-refugio').textContent = `${animal.refugio} · ${animal.comuna}, RM`;
+    document.getElementById('nombre-animal').textContent = animal.nombre;
+    document.getElementById('descripcion-animal').textContent = animal.descripcion;
+    document.getElementById('titulo-nombre-animal').textContent = `Elige tu nivel de apadrinamiento para ${animal.nombre}`;
+
+    document.getElementById('stat-gasto').textContent = '$' + animal.gastoMensual.toLocaleString('es-CL');
+    document.getElementById('stat-padrinos').textContent = animal.padrinosActivos;
+    document.getElementById('stat-meses').textContent = animal.mesesEnRefugio;
+
+    document.getElementById('texto-aporte').textContent =
+      `Tu aporte mensual ayuda directamente a la comida, vacunas y cuidado veterinario de ${animal.nombre}, y te conecta semana a semana con su historia.`;
+
+    const fotoEl = document.getElementById('foto-animal');
+    const fotoPrincipal = (animal.imagenes && animal.imagenes[0]) ? `Imagenes/Mascotas/${animal.imagenes[0]}` : '';
+    if (fotoPrincipal) {
+      fotoEl.style.backgroundImage = `url('${fotoPrincipal}')`;
+    } else {
+      fotoEl.style.backgroundColor = animal.colorPlaceholder || '#D9B38C';
+    }
+
+    const niveles = [
+      { key: 'amigo', emoji: '🐾', nombre: 'Amigo', precio: 5000, destacado: false,
+        items: [`1 foto semanal de ${animal.nombre}`, 'Certificado digital de apadrinamiento', 'Acceso al chat con el refugio'] },
+      { key: 'companero', emoji: '🐶', nombre: 'Compañero', precio: 12000, destacado: true,
+        items: ['Fotos y videos semanales', 'Mensajes personalizados del cuidador', `Certificado + nombre en el perfil de ${animal.nombre}`, 'Novedades sobre su salud y avances'] },
+      { key: 'familia', emoji: '🏡', nombre: 'Familia Apadrina', precio: 20000, destacado: false,
+        items: ['Todo lo del plan Compañero', 'Videollamada trimestral con el refugio', 'Prioridad si decides adoptarlo', 'Invitación a visitas presenciales'] },
+    ];
+
+    const tiersContainer = document.getElementById('tiers-container');
+    tiersContainer.innerHTML = niveles.map((nivel) => `
+      <div class="tier ${nivel.destacado ? 'selected' : ''}" onclick="location.href='checkout.html?perro=${encodeURIComponent(animal.nombre)}&id=${animal.id}&tier=${nivel.key}'">
+        <h4>${nivel.emoji} ${nivel.nombre}</h4>
+        <div class="price">$${nivel.precio.toLocaleString('es-CL')} <span>/ mes</span></div>
+        <ul>
+          ${nivel.items.map((item) => `<li>${item}</li>`).join('')}
+        </ul>
+        <button class="btn ${nivel.destacado ? 'btn-primary' : 'btn-secondary'}" style="width:100%;">Elegir${nivel.destacado ? ' (más popular)' : ''}</button>
+      </div>
+    `).join('');
+  });
+</script>
 </body>
 </html>
