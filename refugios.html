@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Refugios aliados — Apadrina</title>
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="Imagenes/Banners/favicon.png" type="image/png">
+</head>
+<body>
+
+<div id="header-placeholder"></div>
+
+<section class="hero">
+  <span class="badge">Refugios aliados</span>
+  <h1>Elige un refugio y conoce a sus peludos</h1>
+  <p>Trabajamos con refugios verificados de la Región Metropolitana. Elige uno para ver a los peludos que están esperando un padrino.</p>
+</section>
+
+<div class="container">
+  <div class="grid" id="grid-refugios" style="grid-template-columns: repeat(3, 1fr);">
+    <!-- Las tarjetas se generan automáticamente desde animales.js -->
+  </div>
+</div>
+
+<div id="footer-placeholder"></div>
+
+<script src="animales.js"></script>
+<script src="main.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const grid = document.getElementById('grid-refugios');
+    if (!grid || typeof refugiosDB === 'undefined' || typeof animalesDB === 'undefined') return;
+
+    const animales = Object.values(animalesDB);
+    const refugios = Object.values(refugiosDB);
+
+    grid.innerHTML = refugios.map((refugio) => {
+      const cantidad = animales.filter((a) => a.refugioId === refugio.id).length;
+      const inicial = refugio.nombre.replace('Refugio ', '').charAt(0);
+      const fondoLogo = refugio.logo
+        ? `background-image:url('Imagenes/Refugios/${refugio.logo}');`
+        : `background-color:${refugio.colorPlaceholder || '#D9B38C'};`;
+
+      return `
+        <a href="index.html?refugio=${refugio.id}" class="refugio-card">
+          <div class="refugio-logo" style="${fondoLogo}">${refugio.logo ? '' : inicial}</div>
+          <h3>${refugio.nombre}</h3>
+          <div class="meta">${refugio.comuna}, RM · ${cantidad} peludo${cantidad === 1 ? '' : 's'} disponible${cantidad === 1 ? '' : 's'}</div>
+          <p>${refugio.descripcion || ''}</p>
+          <span class="btn btn-secondary" style="width:100%; text-align:center;">Ver peludos</span>
+        </a>
+      `;
+    }).join('');
+  });
+</script>
+</body>
+</html>

@@ -22,16 +22,64 @@
 </section>
 
 <div class="container" id="animales">
-  <h2 class="section-title">Peludos esperando un padrino</h2>
-  <p class="section-sub">Cada perfil viene directo de un refugio aliado en la Región Metropolitana.</p>
+  <h2 class="section-title" id="titulo-animales">Peludos esperando un padrino</h2>
+  <p class="section-sub" id="subtitulo-animales">Cada perfil viene directo de un refugio aliado en la Región Metropolitana.</p>
 
-  <div class="grid" id="grid-animales">
-    <!-- Las tarjetas se generan automáticamente desde animales.js -->
+  <div class="carrusel-wrap" id="carrusel-wrap">
+    <button class="carrusel-btn prev" id="carrusel-prev" aria-label="Anterior">‹</button>
+    <div class="carrusel-track" id="grid-animales">
+      <!-- Las tarjetas se generan automáticamente desde animales.js -->
+    </div>
+    <button class="carrusel-btn next" id="carrusel-next" aria-label="Siguiente">›</button>
+  </div>
+
+  <div class="ver-refugios-wrap" id="ver-refugios-wrap">
+    <a href="refugios.html" class="btn btn-secondary">Ver todos los refugios</a>
+  </div>
+</div>
+
+<div class="container" id="testimonios-container">
+  <div class="testimonios-section">
+    <h2 class="section-title">Lo que dicen nuestros padrinos</h2>
+    <p class="section-sub">Historias reales de personas que ya son parte de esto.</p>
+
+    <div class="testimonios-wrap">
+      <div class="testimonios-track" id="testimonios-track">
+        <div class="testimonio-card">
+          <p class="quote">"Recibir la foto semanal de Rocky se volvió parte de mi rutina. Se siente como tener un peludo sin tener que preocuparme de todo lo demás."</p>
+          <div>
+            <div class="testimonio-autor">Camila Reyes</div>
+            <div class="testimonio-rol">Madrina de Rocky · Providencia</div>
+          </div>
+        </div>
+        <div class="testimonio-card">
+          <p class="quote">"Empecé aportando por curiosidad y hoy sigo el proceso de Luna como si fuera de la familia. Las actualizaciones semanales hacen toda la diferencia."</p>
+          <div>
+            <div class="testimonio-autor">Diego Fuentes</div>
+            <div class="testimonio-rol">Padrino de Luna · Maipú</div>
+          </div>
+        </div>
+        <div class="testimonio-card">
+          <p class="quote">"Cancelo cuando quiero, sin letra chica, y mientras tanto sé que mi aporte llega directo al refugio. Es simple y se siente honesto."</p>
+          <div>
+            <div class="testimonio-autor">Javiera Muñoz</div>
+            <div class="testimonio-rol">Madrina de Mora · Puente Alto</div>
+          </div>
+        </div>
+        <div class="testimonio-card">
+          <p class="quote">"Mis hijos preguntan todas las semanas cómo está Toby. Apadrinarlo nos enseñó algo de responsabilidad sin tener que adoptarlo todavía."</p>
+          <div>
+            <div class="testimonio-autor">Familia Contreras</div>
+            <div class="testimonio-rol">Padrinos de Toby · Ñuñoa</div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
 <div class="container" id="como-funciona">
-  <h2 class="section-title" id="refugios">No es solo una suscripción. Es un vínculo.</h2>
+  <h2 class="section-title">No es solo una suscripción. Es un vínculo.</h2>
   <p class="section-sub">Así se siente apadrinar, paso a paso.</p>
 
   <div class="pasos-emocion">
@@ -65,7 +113,43 @@
     const grid = document.getElementById('grid-animales');
     if (!grid || typeof animalesDB === 'undefined') return;
 
-    const animales = Object.values(animalesDB);
+    const params = new URLSearchParams(window.location.search);
+    const refugioId = params.get('refugio');
+
+    let animales = Object.values(animalesDB);
+    let modoFiltrado = false;
+
+    if (refugioId) {
+      const animalesDelRefugio = animales.filter((a) => a.refugioId === refugioId);
+      if (animalesDelRefugio.length > 0) {
+        animales = animalesDelRefugio;
+        modoFiltrado = true;
+      }
+    } else {
+      // En el inicio sin filtro, solo mostramos los marcados como destacados
+      // (si ninguno tiene el flag, mostramos todos para no dejar el carrusel vacío).
+      const destacados = animales.filter((a) => a.destacado);
+      if (destacados.length > 0) animales = destacados;
+    }
+
+    if (modoFiltrado) {
+      const refugioInfo = (typeof refugiosDB !== 'undefined') ? refugiosDB[refugioId] : null;
+      const tituloEl = document.getElementById('titulo-animales');
+      const subEl = document.getElementById('subtitulo-animales');
+      if (tituloEl) tituloEl.textContent = refugioInfo ? `Peludos de ${refugioInfo.nombre}` : 'Peludos de este refugio';
+      if (subEl) subEl.textContent = refugioInfo ? `${refugioInfo.comuna}, Región Metropolitana` : '';
+      const verRefugiosWrap = document.getElementById('ver-refugios-wrap');
+      if (verRefugiosWrap) verRefugiosWrap.innerHTML = '<a href="refugios.html" class="btn btn-secondary">‹ Volver a todos los refugios</a>';
+      // En vista filtrada mostramos todos los peludos del refugio, no un carrusel acotado.
+      grid.classList.add('grid');
+      grid.classList.remove('carrusel-track');
+      const prevBtn = document.getElementById('carrusel-prev');
+      const nextBtn = document.getElementById('carrusel-next');
+      if (prevBtn) prevBtn.style.display = 'none';
+      if (nextBtn) nextBtn.style.display = 'none';
+      const testimoniosContainer = document.getElementById('testimonios-container');
+      if (testimoniosContainer) testimoniosContainer.style.display = 'none';
+    }
 
     grid.innerHTML = animales.map((animal) => {
       const fotoPrincipal = (animal.imagenes && animal.imagenes[0])
@@ -90,6 +174,22 @@
         </a>
       `;
     }).join('');
+
+    // Flechas del carrusel (solo aplican cuando no está en modo filtrado)
+    const track = document.getElementById('grid-animales');
+    const prevBtn = document.getElementById('carrusel-prev');
+    const nextBtn = document.getElementById('carrusel-next');
+    if (track && prevBtn && nextBtn && !modoFiltrado) {
+      prevBtn.addEventListener('click', () => track.scrollBy({ left: -270, behavior: 'smooth' }));
+      nextBtn.addEventListener('click', () => track.scrollBy({ left: 270, behavior: 'smooth' }));
+    }
+
+    // Flechas del carrusel de testimonios
+    const testTrack = document.getElementById('testimonios-track');
+    if (testTrack) {
+      // Reutilizamos scroll nativo con botones si se agregan más adelante;
+      // por ahora el scroll horizontal funciona directo con swipe/drag.
+    }
   });
 </script>
 </body>

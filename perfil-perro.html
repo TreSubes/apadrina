@@ -90,7 +90,8 @@
       <div class="tier ${nivel.destacado ? 'selected' : ''}" onclick="location.href='checkout.html?perro=${encodeURIComponent(animal.nombre)}&id=${animal.id}&tier=${nivel.key}'">
         <h4>${nivel.emoji} ${nivel.nombre}</h4>
         <div class="price">$${nivel.precio.toLocaleString('es-CL')} <span>/ mes</span></div>
-        <ul>
+        <div class="tier-beneficios-label">Beneficios exclusivos</div>
+        <ul class="lista-beneficios">
           ${nivel.items.map((item) => `<li>${item}</li>`).join('')}
         </ul>
         <button class="btn ${nivel.destacado ? 'btn-primary' : 'btn-secondary'}" style="width:100%;">Elegir${nivel.destacado ? ' (más popular)' : ''}</button>

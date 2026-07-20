@@ -380,6 +380,168 @@ a { text-decoration: none; color: inherit; }
 .tier ul { padding-left: 18px; margin: 12px 0; color: var(--marron); font-size: 14px; }
 .tier li { margin-bottom: 6px; }
 
+/* Carrusel de peludos destacados (inicio) */
+.carrusel-wrap {
+  position: relative;
+  margin-top: 32px;
+}
+
+.carrusel-track {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  padding: 4px 2px 16px;
+}
+
+.carrusel-track::-webkit-scrollbar { display: none; }
+
+.carrusel-track .card {
+  flex: 0 0 250px;
+}
+
+.carrusel-btn {
+  background: #fff;
+  border: 1px solid var(--borde);
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  font-size: 18px;
+  color: var(--naranja-oscuro);
+  cursor: pointer;
+  position: absolute;
+  top: 40%;
+  z-index: 5;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.carrusel-btn:hover { background: var(--naranja); color: #fff; transform: translateY(-50%) scale(1.08); }
+.carrusel-btn.prev { left: -18px; }
+.carrusel-btn.next { right: -18px; }
+
+.ver-refugios-wrap { text-align: center; margin-top: 28px; }
+
+/* Testimonios */
+.testimonios-section {
+  background: linear-gradient(160deg, var(--marron) 0%, #3a2a1f 100%);
+  border-radius: var(--radius);
+  padding: 56px 32px;
+  margin-top: 8px;
+}
+
+.testimonios-section .section-title,
+.testimonios-section .section-sub {
+  color: #fff;
+  text-align: center;
+}
+
+.testimonios-section .section-sub { color: rgba(255,255,255,0.7); }
+
+.testimonios-wrap { position: relative; margin-top: 32px; }
+
+.testimonios-track {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  padding: 4px 2px 8px;
+}
+
+.testimonios-track::-webkit-scrollbar { display: none; }
+
+.testimonio-card {
+  flex: 0 0 300px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: var(--radius);
+  padding: 26px;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 200px;
+}
+
+.testimonio-card .quote {
+  font-size: 15px;
+  line-height: 1.6;
+  font-style: italic;
+  margin: 0 0 18px;
+  color: rgba(255,255,255,0.95);
+}
+
+.testimonio-autor { font-weight: 700; font-size: 14px; }
+.testimonio-rol { font-size: 12.5px; color: rgba(255,255,255,0.65); }
+
+/* Página de refugios */
+.refugio-card {
+  background: #fff;
+  border: 1px solid var(--borde);
+  border-radius: var(--radius);
+  padding: 24px;
+  text-align: left;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.refugio-card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,0.08); }
+
+.refugio-logo {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: #fff;
+  font-weight: 800;
+}
+
+.refugio-card h3 { margin: 0 0 4px; font-size: 19px; }
+.refugio-card .meta { color: var(--gris); font-size: 13px; margin-bottom: 12px; }
+.refugio-card p { font-size: 14px; color: var(--marron); margin: 0 0 18px; line-height: 1.55; }
+
+/* Beneficios por plan (perfil-perro.html) */
+.tier-beneficios-label {
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--naranja-oscuro);
+  margin: 14px 0 6px;
+}
+
+.tier ul.lista-beneficios {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 12px;
+}
+
+.tier ul.lista-beneficios li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: var(--marron);
+}
+
+.tier ul.lista-beneficios li::before {
+  content: "✓";
+  color: var(--verde);
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
 footer {
   text-align: center;
   padding: 32px;
@@ -629,6 +791,16 @@ footer {
   .msg { max-width: 85%; }
 
   footer { padding: 24px 16px; font-size: 12px; }
+
+  .carrusel-track .card { flex-basis: 210px; }
+  .carrusel-btn { width: 36px; height: 36px; font-size: 15px; }
+  .carrusel-btn.prev { left: -8px; }
+  .carrusel-btn.next { right: -8px; }
+
+  .testimonios-section { padding: 36px 18px; }
+  .testimonio-card { flex-basis: 250px; padding: 20px; }
+
+  .refugio-card { padding: 20px; }
 }
 
 @media (max-width: 420px) {
