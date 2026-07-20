@@ -74,6 +74,7 @@
           </div>
         </div>
       </div>
+      <div class="testimonios-dots" id="testimonios-dots"></div>
     </div>
   </div>
 </div>
@@ -184,11 +185,38 @@
       nextBtn.addEventListener('click', () => track.scrollBy({ left: 270, behavior: 'smooth' }));
     }
 
-    // Flechas del carrusel de testimonios
+    // Carrusel de testimonios: en mobile es 100% swipe (scroll-snap),
+    // acá solo generamos los puntitos indicadores y los sincronizamos con el scroll.
     const testTrack = document.getElementById('testimonios-track');
-    if (testTrack) {
-      // Reutilizamos scroll nativo con botones si se agregan más adelante;
-      // por ahora el scroll horizontal funciona directo con swipe/drag.
+    const dotsWrap = document.getElementById('testimonios-dots');
+    if (testTrack && dotsWrap) {
+      const tarjetas = Array.from(testTrack.children);
+      dotsWrap.innerHTML = tarjetas.map((_, i) => `<span class="dot${i === 0 ? ' activo' : ''}"></span>`).join('');
+      const dots = Array.from(dotsWrap.children);
+
+      const actualizarDotActivo = () => {
+        const centro = testTrack.scrollLeft + testTrack.clientWidth / 2;
+        let masCercana = 0;
+        let distMinima = Infinity;
+        tarjetas.forEach((card, i) => {
+          const centroCard = card.offsetLeft + card.offsetWidth / 2;
+          const dist = Math.abs(centro - centroCard);
+          if (dist < distMinima) { distMinima = dist; masCercana = i; }
+        });
+        dots.forEach((dot, i) => dot.classList.toggle('activo', i === masCercana));
+      };
+
+      let scrollTimeout;
+      testTrack.addEventListener('scroll', () => {
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(actualizarDotActivo, 80);
+      });
+
+      dots.forEach((dot, i) => {
+        dot.addEventListener('click', () => {
+          tarjetas[i].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        });
+      });
     }
   });
 </script>
