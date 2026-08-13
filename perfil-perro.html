@@ -14,9 +14,9 @@
 <div class="container">
   <div class="dog-hero">
     <div class="dog-photo" id="foto-animal"></div>
-    <div>
+    <div class="dog-hero-info">
       <span class="badge" id="badge-refugio"></span>
-      <h1 style="margin:0 0 6px;" id="nombre-animal"></h1>
+      <h1 style="margin:0 0 8px;" id="nombre-animal"></h1>
       <p style="color:var(--gris); margin-top:0;" id="descripcion-animal"></p>
 
       <div class="stat-box">
@@ -25,7 +25,7 @@
         <div class="stat"><b id="stat-meses"></b><span>meses en el refugio</span></div>
       </div>
 
-      <p style="font-size:14px; color:var(--gris);" id="texto-aporte"></p>
+      <p class="texto-aporte-box" id="texto-aporte"></p>
     </div>
   </div>
 </div>
@@ -36,6 +36,15 @@
 
   <div class="tiers" id="tiers-container">
     <!-- Los niveles se generan dinámicamente para incluir el nombre del animal en cada link -->
+  </div>
+</div>
+
+<div class="container otros-peludos-section" id="otros-peludos-section">
+  <h2 class="section-title" style="text-align:center;">Conoce otros peludos</h2>
+  <p class="section-sub" style="text-align:center;">También están esperando un padrino en refugios de la RM.</p>
+
+  <div class="grid" id="grid-otros-peludos">
+    <!-- Se genera dinámicamente desde animales.js, excluyendo al peludo actual -->
   </div>
 </div>
 
@@ -97,6 +106,33 @@
         <button class="btn ${nivel.destacado ? 'btn-primary' : 'btn-secondary'}" style="width:100%;">Elegir${nivel.destacado ? ' (más popular)' : ''}</button>
       </div>
     `).join('');
+
+    // Sección "Conoce otros peludos": otros animales, excluyendo el actual
+    const gridOtros = document.getElementById('grid-otros-peludos');
+    if (gridOtros) {
+      const otros = Object.values(animalesDB).filter((a) => a.id !== animal.id).slice(0, 4);
+
+      if (otros.length === 0) {
+        document.getElementById('otros-peludos-section').style.display = 'none';
+      } else {
+        gridOtros.innerHTML = otros.map((otro) => {
+          const fotoPrincipal = (otro.imagenes && otro.imagenes[0]) ? `Imagenes/Mascotas/${otro.imagenes[0]}` : '';
+          const fondoImagen = fotoPrincipal
+            ? `background-image:url('${fotoPrincipal}');`
+            : `background-color:${otro.colorPlaceholder || '#D9B38C'};`;
+
+          return `
+            <a href="perfil-perro.html?id=${otro.id}" class="card">
+              <div class="card-img" style="${fondoImagen}"></div>
+              <div class="card-body">
+                <h3>${otro.nombre}</h3>
+                <div class="meta">${otro.edad} · ${otro.refugio}, ${otro.comuna}</div>
+              </div>
+            </a>
+          `;
+        }).join('');
+      }
+    }
   });
 </script>
 </body>

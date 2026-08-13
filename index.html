@@ -185,14 +185,23 @@
       nextBtn.addEventListener('click', () => track.scrollBy({ left: 270, behavior: 'smooth' }));
     }
 
-    // Carrusel de testimonios: en mobile es 100% swipe (scroll-snap),
-    // acá solo generamos los puntitos indicadores y los sincronizamos con el scroll.
+    // Carrusel de testimonios: se mueve solo cada pocos segundos,
+    // y también se puede arrastrar/deslizar manualmente en mobile.
     const testTrack = document.getElementById('testimonios-track');
     const dotsWrap = document.getElementById('testimonios-dots');
     if (testTrack && dotsWrap) {
       const tarjetas = Array.from(testTrack.children);
       dotsWrap.innerHTML = tarjetas.map((_, i) => `<span class="dot${i === 0 ? ' activo' : ''}"></span>`).join('');
       const dots = Array.from(dotsWrap.children);
+
+      let indiceActual = 0;
+      let autoplayTimer = null;
+      let pausado = false;
+
+      const irATarjeta = (i) => {
+        indiceActual = (i + tarjetas.length) % tarjetas.length;
+        tarjetas[indiceActual].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      };
 
       const actualizarDotActivo = () => {
         const centro = testTrack.scrollLeft + testTrack.clientWidth / 2;
@@ -203,6 +212,7 @@
           const dist = Math.abs(centro - centroCard);
           if (dist < distMinima) { distMinima = dist; masCercana = i; }
         });
+        indiceActual = masCercana;
         dots.forEach((dot, i) => dot.classList.toggle('activo', i === masCercana));
       };
 
@@ -213,10 +223,25 @@
       });
 
       dots.forEach((dot, i) => {
-        dot.addEventListener('click', () => {
-          tarjetas[i].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-        });
+        dot.addEventListener('click', () => irATarjeta(i));
       });
+
+      const iniciarAutoplay = () => {
+        clearInterval(autoplayTimer);
+        autoplayTimer = setInterval(() => {
+          if (!pausado) irATarjeta(indiceActual + 1);
+        }, 4500);
+      };
+
+      // Pausa el autoplay mientras el usuario interactúa (hover en desktop, touch/drag en mobile)
+      testTrack.addEventListener('mouseenter', () => { pausado = true; });
+      testTrack.addEventListener('mouseleave', () => { pausado = false; });
+      testTrack.addEventListener('touchstart', () => { pausado = true; }, { passive: true });
+      testTrack.addEventListener('touchend', () => {
+        setTimeout(() => { pausado = false; }, 2500);
+      });
+
+      iniciarAutoplay();
     }
   });
 </script>
