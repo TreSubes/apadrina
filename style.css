@@ -577,6 +577,82 @@ a { text-decoration: none; color: inherit; }
   color: var(--marron);
 }
 
+/* Página de Gracias (post-suscripción) */
+.gracias-hero {
+  position: relative;
+  min-height: 520px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-size: cover;
+  background-position: center;
+  background-image: url('Imagenes/Banners/bannersperritos.png');
+  overflow: hidden;
+}
+
+.gracias-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(74,52,39,0.55) 0%, rgba(74,52,39,0.8) 100%);
+}
+
+.gracias-content {
+  position: relative;
+  z-index: 3;
+  padding: 24px;
+  max-width: 560px;
+  color: #fff;
+}
+
+.gracias-content .badge {
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+}
+
+.gracias-content h1 {
+  font-size: 36px;
+  margin: 0 0 14px;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.35);
+}
+
+.gracias-content p {
+  font-size: 16px;
+  color: rgba(255,255,255,0.92);
+  margin: 0 0 28px;
+}
+
+.gracias-botones {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 340px;
+  margin: 0 auto;
+}
+
+/* Confeti CSS puro: piezas cayendo desde arriba de la sección */
+.confeti-wrap {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.confeti-pieza {
+  position: absolute;
+  top: -20px;
+  width: 10px;
+  height: 16px;
+  opacity: 0.9;
+  animation: caer-confeti linear infinite;
+}
+
+@keyframes caer-confeti {
+  0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(560px) rotate(360deg); opacity: 0.4; }
+}
+
 .tier ul.lista-beneficios li::before {
   content: "✓";
   color: var(--verde);
@@ -826,6 +902,10 @@ footer {
   }
   .hero-banner-content h1 { font-size: 28px; }
   .hero-banner-content p { font-size: 15px; }
+
+  .gracias-hero { min-height: 460px; background-image: url('Imagenes/Banners/bannersperritoscelular.png'); }
+  .gracias-content h1 { font-size: 27px; }
+  .gracias-content p { font-size: 15px; }
 
   .container { padding: 28px 16px; }
 

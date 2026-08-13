@@ -11,21 +11,46 @@
 
 <div id="header-placeholder"></div>
 
-<div class="container" style="text-align:center; max-width:560px;">
-  <span class="badge">¡Ya casi está!</span>
-  <h1 style="font-size:30px; margin-bottom:8px;">Gracias por querer apadrinar 🐾</h1>
-  <p style="color:var(--gris); font-size:16px;">Recibimos tus datos. Para activar tu suscripción y empezar a recibir las actualizaciones semanales, dale seguimiento por uno de estos canales — ahí te confirmamos todo directamente.</p>
+<section class="gracias-hero" id="gracias-hero">
+  <div class="gracias-overlay"></div>
+  <div class="confeti-wrap" id="confeti-wrap"></div>
 
-  <div style="display:flex; flex-direction:column; gap:14px; margin-top:28px;">
-    <a href="https://wa.me/56900000000?text=Hola%2C%20acabo%20de%20enviar%20mis%20datos%20para%20apadrinar%20y%20quiero%20confirmar%20mi%20suscripci%C3%B3n" target="_blank" class="btn btn-primary" style="width:100%;">Escríbenos por WhatsApp</a>
-    <a href="https://instagram.com/apadrina.cl" target="_blank" class="btn btn-secondary" style="width:100%;">Síguenos en Instagram</a>
+  <div class="gracias-content">
+    <span class="badge">¡Ya eres parte de esto!</span>
+    <h1>Gracias por querer apadrinar 🐾</h1>
+    <p>Recibimos tus datos. Para activar tu suscripción y empezar a recibir las actualizaciones semanales, dale seguimiento por uno de estos canales — ahí te confirmamos todo directamente.</p>
+
+    <div class="gracias-botones">
+      <a href="https://wa.me/56900000000?text=Hola%2C%20acabo%20de%20enviar%20mis%20datos%20para%20apadrinar%20y%20quiero%20confirmar%20mi%20suscripci%C3%B3n" target="_blank" class="btn btn-primary" style="width:100%;">Escríbenos por WhatsApp</a>
+      <a href="https://instagram.com/apadrina.cl" target="_blank" class="btn btn-secondary" style="width:100%; background:rgba(255,255,255,0.9);">Síguenos en Instagram</a>
+      <a href="que-sigue.html" class="btn btn-secondary" style="width:100%; background:rgba(255,255,255,0.9);">¿Y qué sigue ahora? →</a>
+    </div>
   </div>
-
-  <p style="font-size:13px; color:var(--gris); margin-top:28px;">Ahí también vas a recibir las fotos y novedades semanales de tu peludo apadrinado, directo del refugio.</p>
-</div>
+</section>
 
 <div id="footer-placeholder"></div>
 
 <script src="main.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Genera piezas de confeti con posición, color, tamaño y velocidad aleatorios.
+    const wrap = document.getElementById('confeti-wrap');
+    const colores = ['#FF7A45', '#E85D2C', '#FFD166', '#3FA34D', '#FFFFFF'];
+    const cantidad = 60;
+
+    for (let i = 0; i < cantidad; i++) {
+      const pieza = document.createElement('div');
+      pieza.className = 'confeti-pieza';
+      pieza.style.left = Math.random() * 100 + '%';
+      pieza.style.background = colores[Math.floor(Math.random() * colores.length)];
+      pieza.style.animationDuration = (2.5 + Math.random() * 2.5) + 's';
+      pieza.style.animationDelay = (Math.random() * 3) + 's';
+      pieza.style.width = (6 + Math.random() * 6) + 'px';
+      pieza.style.height = (10 + Math.random() * 8) + 'px';
+      if (Math.random() > 0.5) pieza.style.borderRadius = '50%';
+      wrap.appendChild(pieza);
+    }
+  });
+</script>
 </body>
 </html>
