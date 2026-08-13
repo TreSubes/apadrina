@@ -16,24 +16,28 @@
   <p class="section-sub" style="text-align:center;">¿Eres un refugio, un padrino con dudas, o quieres saber más? Escríbenos.</p>
 
   <div class="form-box">
-    <label for="tipo">¿Quién eres?</label>
-    <select id="tipo" style="width:100%;padding:12px 14px;border:1px solid var(--borde);border-radius:10px;font-size:15px;">
-      <option>Soy un refugio y quiero sumarme</option>
-      <option>Soy padrino y tengo una duda</option>
-      <option>Otro</option>
-    </select>
+    <form id="contacto-form" action="https://formspree.io/f/xpparkdn" method="POST">
+      <input type="hidden" name="_subject" value="Nuevo mensaje de contacto — Apadrina">
 
-    <label for="nombre">Nombre completo</label>
-    <input type="text" id="nombre" placeholder="Tu nombre">
+      <label for="tipo">¿Quién eres?</label>
+      <select id="tipo" name="tipo" style="width:100%;padding:12px 14px;border:1px solid var(--borde);border-radius:10px;font-size:15px;">
+        <option>Soy un refugio y quiero sumarme</option>
+        <option>Soy padrino y tengo una duda</option>
+        <option>Otro</option>
+      </select>
 
-    <label for="email">Correo electrónico</label>
-    <input type="email" id="email" placeholder="tucorreo@ejemplo.com">
+      <label for="nombre">Nombre completo</label>
+      <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required>
 
-    <label for="mensaje">Mensaje</label>
-    <input type="text" id="mensaje" placeholder="Cuéntanos en qué te ayudamos">
+      <label for="email">Correo electrónico</label>
+      <input type="email" id="email" name="email" placeholder="tucorreo@ejemplo.com" required>
 
-    <button class="btn btn-primary" style="width:100%; margin-top:20px;">Enviar mensaje</button>
-    <p style="font-size:12px; color:var(--gris); text-align:center; margin-top:12px;">Te respondemos dentro de 48 horas hábiles.</p>
+      <label for="mensaje">Mensaje</label>
+      <input type="text" id="mensaje" name="mensaje" placeholder="Cuéntanos en qué te ayudamos" required>
+
+      <button type="submit" class="btn btn-primary" style="width:100%; margin-top:20px;">Enviar mensaje</button>
+      <p style="font-size:12px; color:var(--gris); text-align:center; margin-top:12px;">Te respondemos dentro de 48 horas hábiles.</p>
+    </form>
   </div>
 </div>
 
