@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plantilla — Comprobante de Apadrinamiento</title>
+</head>
+<body style="margin:0; padding:0; background-color:#FFF8F1; font-family:'Segoe UI', Arial, sans-serif;">
+
+<!--
+  PLANTILLA DE CORREO — Comprobante de Apadrinamiento
+  =====================================================
+  Este archivo NO es una página del sitio (no se enlaza desde el menú).
+  Es la plantilla de referencia para el correo automático que se le envía
+  al usuario justo después de confirmar su pago en MercadoPago.
+
+  Los campos entre {{llaves_dobles}} son variables que debe llenar la
+  herramienta de envío (Formspree + Zapier, un backend simple, o lo que
+  se decida usar para automatizar el envío — ver nota al final).
+
+  Formato de tabla + estilos inline: es intencional. Los clientes de
+  correo (Gmail, Outlook, etc.) no soportan CSS moderno como flexbox o
+  grid, así que los correos transaccionales se arman con <table> por
+  compatibilidad. No "arreglar" esto a HTML moderno.
+-->
+
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#FFF8F1; padding:32px 16px;">
+<tr><td align="center">
+
+  <table role="presentation" width="100%" style="max-width:520px; background:#ffffff; border-radius:16px; overflow:hidden; border:1px solid #F0E4D8;" cellpadding="0" cellspacing="0">
+
+    <!-- Encabezado -->
+    <tr>
+      <td style="background:linear-gradient(160deg, #FF7A45 0%, #E85D2C 100%); background-color:#E85D2C; padding:28px 32px; text-align:center;">
+        <span style="font-size:22px; font-weight:800; color:#ffffff;">🐾 Apadrina</span>
+      </td>
+    </tr>
+
+    <!-- Cuerpo -->
+    <tr>
+      <td style="padding:32px;">
+        <p style="font-size:18px; font-weight:800; color:#4A3427; margin:0 0 4px;">¡Gracias, {{nombre_usuario}}!</p>
+        <p style="font-size:15px; color:#4A3427; margin:0 0 24px; line-height:1.6;">
+          Tu apadrinamiento de <strong>{{nombre_peludo}}</strong> ({{refugio_nombre}}, {{refugio_comuna}}) quedó confirmado. Este correo es tu comprobante de apadrinamiento — guárdalo como respaldo de tu suscripción mensual.
+        </p>
+
+        <!-- Desglose -->
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#FFF3E9; border-radius:12px; margin-bottom:20px;">
+          <tr>
+            <td style="padding:18px 20px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="font-size:13px; color:#8A7D74; padding-bottom:6px;">Plan elegido</td>
+                  <td style="font-size:13px; color:#8A7D74; padding-bottom:6px; text-align:right;">{{plan_nombre}}</td>
+                </tr>
+                <tr>
+                  <td style="font-size:14px; color:#4A3427; padding:4px 0;">Va directo al refugio</td>
+                  <td style="font-size:14px; color:#4A3427; padding:4px 0; text-align:right;">{{monto_refugio}}</td>
+                </tr>
+                <tr>
+                  <td style="font-size:14px; color:#4A3427; padding:4px 0;">Procesamiento y operación de Apadrina</td>
+                  <td style="font-size:14px; color:#4A3427; padding:4px 0; text-align:right;">{{monto_comision}}</td>
+                </tr>
+                <tr>
+                  <td colspan="2" style="border-top:1px dashed #F0E4D8; padding-top:10px; margin-top:6px;"></td>
+                </tr>
+                <tr>
+                  <td style="font-size:16px; font-weight:800; color:#4A3427; padding-top:6px;">Total mensual</td>
+                  <td style="font-size:16px; font-weight:800; color:#E85D2C; padding-top:6px; text-align:right;">{{monto_total}}</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+
+        <!-- Aviso legal, discreto pero presente -->
+        <p style="font-size:11.5px; color:#8A7D74; line-height:1.6; background:#FFF8F1; border-radius:10px; padding:12px 14px; margin:0 0 24px;">
+          Este pago se realiza a <strong>GrupoEleva SpA</strong> por su servicio de intermediación y no constituye una donación con beneficio tributario — no se emiten certificados de donación. Adjunto encontrarás la boleta electrónica de GrupoEleva SpA, emitida únicamente por el monto de la comisión de operación ({{monto_comision}}). Puedes revisar el detalle completo en nuestros <a href="https://apadrina-cl.netlify.app/terminos.html" style="color:#E85D2C; font-weight:700;">Términos y Condiciones</a>.
+        </p>
+
+        <!-- CTA -->
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+          <tr>
+            <td align="center">
+              <a href="{{link_que_sigue}}" style="display:inline-block; background:#FF7A45; color:#ffffff; font-weight:700; font-size:14px; padding:12px 28px; border-radius:999px; text-decoration:none;">¿Y qué sigue ahora?</a>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+
+    <!-- Pie -->
+    <tr>
+      <td style="padding:20px 32px; border-top:1px solid #F0E4D8; text-align:center;">
+        <p style="font-size:12px; color:#8A7D74; margin:0 0 6px;">¿Dudas sobre tu apadrinamiento o quieres cancelar? Escríbenos por WhatsApp o Instagram.</p>
+        <p style="font-size:11px; color:#8A7D74; margin:0;">GrupoEleva SpA — Apadrina.cl — Región Metropolitana, Chile</p>
+      </td>
+    </tr>
+
+  </table>
+
+</td></tr>
+</table>
+
+<!--
+  NOTA DE IMPLEMENTACIÓN (borrar este comentario antes de usar la plantilla en producción):
+
+  Hoy el sitio es 100% estático (HTML/CSS/JS sin backend), así que este correo
+  todavía NO se envía automáticamente. Para activarlo hace falta conectar algo
+  que dispare el envío cuando MercadoPago confirme un pago exitoso — opciones:
+
+  1. Un webhook de MercadoPago -> Zapier/Make -> envío por SendGrid/Resend/Mailgun.
+  2. Una función serverless simple (Netlify Functions) que escuche el webhook de
+     MercadoPago y dispare el correo.
+  3. Como paso intermedio manual: el equipo de Apadrina arma este correo a mano
+     por cada nueva suscripción, usando los datos que llegan a Formspree.
+
+  Los valores {{nombre_usuario}}, {{nombre_peludo}}, {{refugio_nombre}},
+  {{refugio_comuna}}, {{plan_nombre}}, {{monto_refugio}}, {{monto_comision}},
+  {{monto_total}} y {{link_que_sigue}} deben reemplazarse con los datos reales
+  de cada suscripción antes de enviar.
+-->
+
+</body>
+</html>

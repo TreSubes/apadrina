@@ -17,16 +17,16 @@
   <p class="section-sub" style="text-align:center;">Dos pasos rápidos: primero tus datos, después el pago.</p>
 
   <div class="form-box" style="max-width:560px;">
-    <div style="display:flex; align-items:center; gap:14px;">
-      <div id="perro-foto" style="width:56px;height:56px;border-radius:12px;background-color:#D9B38C;background-size:cover;background-position:center;"></div>
+    <div class="checkout-animal-header">
+      <div id="perro-foto" class="checkout-animal-foto"></div>
       <div>
-        <b id="perro-nombre">Rocky</b>
-        <div style="font-size:13px;color:var(--gris);" id="perro-refugio">Refugio Huellitas, Maipú</div>
+        <div class="checkout-animal-nombre"><b id="perro-nombre">Rocky</b></div>
+        <div class="checkout-animal-refugio" id="perro-refugio">Refugio Huellitas, Maipú</div>
       </div>
     </div>
 
     <!-- PASO 1: Formulario de datos -->
-    <h3 style="margin-top:24px; font-size:16px;">1. Tus datos</h3>
+    <h3 class="checkout-paso-titulo">Paso 1 · Tus datos</h3>
     <form id="checkout-form" action="https://formspree.io/f/mgawyrad" method="POST">
       <input type="hidden" name="perro" id="input-perro" value="Rocky">
       <input type="hidden" name="plan" id="input-plan" value="Compañero - $12.000/mes">
@@ -61,14 +61,12 @@
 
     <!-- PASO 2: Pago (se habilita después de enviar el formulario) -->
     <div id="paso-pago" style="margin-top:28px; padding-top:24px; border-top:1px dashed var(--borde);">
-      <h3 style="font-size:16px; margin-bottom:8px;">2. Confirma tu pago</h3>
-      <p style="font-size:13px; color:var(--gris); margin-top:0;">Después de enviar tus datos, haz clic abajo para ir a la plataforma segura de pago y activar tu suscripción mensual.</p>
+      <h3 class="checkout-paso-titulo" style="margin-top:0;">Paso 2 · Confirma tu pago</h3>
+      <p style="font-size:13px; color:var(--gris); margin-top:4px;">Después de enviar tus datos, haz clic abajo para ir a la plataforma segura de pago y activar tu suscripción mensual.</p>
 
-      <div class="summary-box" style="background:#FFF3E9;">
-        <div class="summary-row"><span>Va directo al refugio</span><span id="desglose-refugio">$3.750</span></div>
-        <div class="summary-row"><span>Procesamiento y operación<sup style="cursor:help;" title="Incluye la comisión de la pasarela de pago y lo que cubre el funcionamiento de Apadrina: verificación de refugios, envío de actualizaciones semanales, soporte y mantención de la plataforma.">ⓘ</sup></span><span id="desglose-comision">$1.250</span></div>
-      </div>
-      <p style="font-size:12px; color:var(--gris); margin:10px 0 0;">Apadrina se queda con parte de tu aporte para cubrir el procesamiento del pago y todo lo que hace posible que tu peludo reciba comida, cuidado y que tú recibas sus novedades cada semana. Este aporte se paga a GrupoEleva SpA y no constituye una donación con beneficio tributario — no emitimos certificado de donación. <a href="terminos.html" style="color:var(--naranja-oscuro); font-weight:700;">Ver detalle en Términos y Condiciones</a>.</p>
+      <p class="disclaimer-legal">
+        El 75% de tu aporte va directo al refugio; el 25% cubre el procesamiento del pago y la operación de Apadrina. Este pago se realiza a GrupoEleva SpA y no constituye una donación con beneficio tributario — no emitimos certificado de donación. <a href="terminos.html">Ver detalle en Términos y Condiciones</a>.
+      </p>
 
       <div class="checkbox-group" style="display:flex; align-items:center; gap:8px; margin:14px 0;">
         <input type="checkbox" id="confirm-data-checkbox">
@@ -98,17 +96,6 @@
     'Compañero - $12.000/mes': '$12.000',
     'Familia Apadrina - $20.000/mes': '$20.000',
   };
-
-  // Montos base por plan (CLP), usados para calcular el desglose refugio/comisión.
-  const MONTOS_BASE = {
-    'Amigo - $5.000/mes': 5000,
-    'Compañero - $12.000/mes': 12000,
-    'Familia Apadrina - $20.000/mes': 20000,
-  };
-
-  // Porcentaje que retiene Apadrina para cubrir pasarela de pago + operación
-  // (ver desglose completo y justificación en terminos.html).
-  const PORCENTAJE_COMISION = 0.25;
 
   document.addEventListener('DOMContentLoaded', () => {
     // Lee el perro y el plan desde la URL (ej. checkout.html?id=rocky&perro=Rocky&tier=companero)
@@ -151,12 +138,6 @@
       document.getElementById('resumen-plan-label').textContent = 'Plan ' + planValue.split(' - ')[0];
       document.getElementById('resumen-plan-precio').textContent = PRECIOS[planValue];
       document.getElementById('resumen-total').textContent = PRECIOS[planValue] + ' CLP';
-
-      const montoBase = MONTOS_BASE[planValue] || 0;
-      const montoComision = Math.round(montoBase * PORCENTAJE_COMISION);
-      const montoRefugio = montoBase - montoComision;
-      document.getElementById('desglose-refugio').textContent = '$' + montoRefugio.toLocaleString('es-CL');
-      document.getElementById('desglose-comision').textContent = '$' + montoComision.toLocaleString('es-CL');
 
       const btnPagar = document.getElementById('btn-pagar');
       btnPagar.href = LINKS_MERCADOPAGO[planValue];

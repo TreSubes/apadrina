@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Registro de refugio — Apadrina</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="Imagenes/Banners/favicon.png" type="image/png">
+</head>
+<body>
+
+<div id="header-placeholder"></div>
+
+<section class="hero" style="padding-bottom:28px;">
+  <span class="badge">Para refugios</span>
+  <h1 style="font-size:30px;">Registra tu refugio en Apadrina</h1>
+  <p>Completa tus datos y acepta el mandato para que podamos empezar a recaudar aportes para tus peludos.</p>
+</section>
+
+<div class="container" style="max-width:640px;">
+
+  <div class="form-box" style="max-width:100%; border-color:var(--naranja); background:#FFF3E9; margin-bottom:24px;">
+    <p style="margin:0; font-size:13px; color:var(--marron);">
+      <strong>⚠️ Página en construcción / piloto.</strong> Este formulario y el texto del mandato son un borrador de trabajo, pendiente de revisión por un abogado antes de usarse con refugios reales. El registro real de IP se basa en los metadatos de envío de Formspree — es una solución simple pensada para el piloto, no un certificado de firma electrónica.
+    </p>
+  </div>
+
+  <div class="form-box" style="max-width:100%;">
+    <form id="registro-refugio-form" action="https://formspree.io/f/mdendgnp" method="POST">
+      <input type="hidden" name="_subject" value="Nuevo registro de refugio — Mandato de Recaudación">
+      <input type="hidden" name="fecha_hora_aceptacion" id="input-fecha-hora">
+      <input type="hidden" name="zona_horaria" id="input-zona-horaria">
+
+      <label for="nombre-refugio">Nombre del refugio</label>
+      <input type="text" id="nombre-refugio" name="nombre_refugio" placeholder="Ej. Refugio Huellitas" required>
+
+      <label for="rut-refugio">RUT del refugio o de su representante legal</label>
+      <input type="text" id="rut-refugio" name="rut_refugio" placeholder="Ej. 76.123.456-7" required>
+
+      <label for="nombre-contacto">Nombre de quien acepta este mandato</label>
+      <input type="text" id="nombre-contacto" name="nombre_contacto" placeholder="Nombre completo" required>
+
+      <label for="cargo-contacto">Cargo o rol en el refugio</label>
+      <input type="text" id="cargo-contacto" name="cargo_contacto" placeholder="Ej. Directora, encargado de adopciones" required>
+
+      <label for="email-refugio">Correo electrónico</label>
+      <input type="email" id="email-refugio" name="email_refugio" placeholder="contacto@turefugio.cl" required>
+
+      <label for="telefono-refugio">Teléfono / WhatsApp</label>
+      <input type="tel" id="telefono-refugio" name="telefono_refugio" placeholder="+56 9 1234 5678" required>
+
+      <label for="comuna-refugio">Comuna donde opera</label>
+      <input type="text" id="comuna-refugio" name="comuna_refugio" placeholder="Ej. Maipú" required>
+
+      <label for="cuenta-bancaria">Cuenta bancaria para recibir transferencias</label>
+      <input type="text" id="cuenta-bancaria" name="cuenta_bancaria" placeholder="Banco, tipo de cuenta y número" required>
+
+      <!-- Texto del mandato, visible antes de aceptar -->
+      <div style="margin-top:24px; padding:18px; background:var(--crema); border-radius:12px; max-height:260px; overflow-y:auto; font-size:13px; color:var(--marron); line-height:1.65;">
+        <p style="margin:0 0 10px; font-weight:800; text-transform:uppercase; font-size:11.5px; letter-spacing:0.5px; color:var(--naranja-oscuro);">Mandato de Recaudación</p>
+        <p>Mediante la aceptación de este documento, el Refugio individualizado en este formulario ("el Mandante") otorga mandato a <strong>GrupoEleva SpA</strong>, RUT 78.261.073-2 ("el Mandatario", operador de la plataforma Apadrina), para que, por cuenta y orden del Mandante, recaude de los usuarios de la Plataforma los aportes mensuales voluntarios destinados a colaborar con el cuidado de los animales del Mandante que se publiquen en Apadrina.</p>
+        <p>El Mandatario retendrá, de cada aporte recaudado, la comisión de intermediación informada al Mandante y publicada en los Términos y Condiciones de la Plataforma, y transferirá el saldo restante a la cuenta bancaria indicada por el Mandante en este formulario, con la periodicidad informada en dichos Términos y Condiciones.</p>
+        <p>Los fondos recaudados por cuenta del Mandante y aún no transferidos no constituyen patrimonio del Mandatario, y serán registrados por este como fondos de terceros en tránsito.</p>
+        <p>El Mandante declara contar con las facultades suficientes para representar al refugio individualizado y aceptar este mandato en su nombre. Este mandato podrá terminarse por cualquiera de las partes dando aviso a la otra con 30 días de anticipación, sin perjuicio de las transferencias pendientes al momento del término.</p>
+      </div>
+
+      <div style="display:flex; align-items:flex-start; gap:10px; margin:18px 0;">
+        <input type="checkbox" id="acepto-mandato" name="acepto_mandato" value="Sí, acepto" required style="margin-top:3px;">
+        <label for="acepto-mandato" style="font-size:13.5px; font-weight:600;">He leído y acepto el Mandato de Recaudación en representación de mi refugio. Entiendo que esta aceptación queda registrada con fecha, hora y datos de envío de este formulario.</label>
+      </div>
+
+      <button type="submit" class="btn btn-primary" style="width:100%;">Registrar mi refugio y aceptar el mandato</button>
+      <p style="font-size:12px; color:var(--gris); text-align:center; margin-top:12px;">Te contactaremos dentro de las siguientes 48 horas hábiles para coordinar la publicación de tus peludos.</p>
+    </form>
+  </div>
+
+</div>
+
+<div id="footer-placeholder"></div>
+
+<script src="main.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Registra fecha/hora exacta de aceptación desde el navegador del refugio,
+    // como respaldo adicional a la IP y timestamp que Formspree registra
+    // automáticamente en el panel de cada submission.
+    const form = document.getElementById('registro-refugio-form');
+    const inputFecha = document.getElementById('input-fecha-hora');
+    const inputZona = document.getElementById('input-zona-horaria');
+
+    form.addEventListener('submit', () => {
+      inputFecha.value = new Date().toISOString();
+      inputZona.value = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+    });
+  });
+</script>
+</body>
+</html>
