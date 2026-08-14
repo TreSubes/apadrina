@@ -4,6 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title id="page-title">Apadrina</title>
+<meta name="description" id="meta-description" content="Conoce a los peludos que están esperando un padrino en refugios de la Región Metropolitana y elige tu nivel de apadrinamiento.">
+<meta property="og:title" id="og-title" content="Apadrina un peludo — Apadrina">
+<meta property="og:description" id="og-description" content="Conoce su historia y elige tu nivel de apadrinamiento desde $5.000/mes.">
+<meta property="og:image" id="og-image" content="https://apadrina-cl.netlify.app/Imagenes/Banners/bannersperritos.png">
+<meta property="og:url" content="https://apadrina-cl.netlify.app/perfil-perro.html">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="style.css">
 <link rel="icon" href="Imagenes/Banners/favicon.png" type="image/png">
 </head>
@@ -30,7 +37,7 @@
   </div>
 </div>
 
-<div class="container" id="niveles">
+<div class="container reveal" id="niveles">
   <h2 class="section-title" id="titulo-nombre-animal">Elige tu nivel de apadrinamiento</h2>
   <p class="section-sub">Todos los niveles incluyen updates semanales por chat. Cancela cuando quieras.</p>
 
@@ -39,7 +46,7 @@
   </div>
 </div>
 
-<div class="container otros-peludos-section" id="otros-peludos-section">
+<div class="container otros-peludos-section reveal" id="otros-peludos-section">
   <h2 class="section-title" style="text-align:center;">Conoce otros peludos</h2>
   <p class="section-sub" style="text-align:center;">También están esperando un padrino en refugios de la RM.</p>
 
@@ -65,6 +72,19 @@
     }
 
     document.getElementById('page-title').textContent = animal.nombre + ' — Apadrina';
+
+    // Actualiza SEO / Open Graph con los datos reales del animal, para que al compartir
+    // el link se vea su nombre, historia y foto en vez de los genéricos.
+    const ogTitle = `Apadrina a ${animal.nombre} — Apadrina`;
+    const ogDesc = animal.descripcion || `Conoce a ${animal.nombre} y elige tu nivel de apadrinamiento desde $5.000/mes.`;
+    document.getElementById('meta-description').setAttribute('content', ogDesc);
+    document.getElementById('og-title').setAttribute('content', ogTitle);
+    document.getElementById('og-description').setAttribute('content', ogDesc);
+    const fotoOg = (animal.imagenes && animal.imagenes[0])
+      ? `https://apadrina-cl.netlify.app/Imagenes/Mascotas/${animal.imagenes[0]}`
+      : 'https://apadrina-cl.netlify.app/Imagenes/Banners/bannersperritos.png';
+    document.getElementById('og-image').setAttribute('content', fotoOg);
+
     document.getElementById('badge-refugio').textContent = `${animal.refugio} · ${animal.comuna}, RM`;
     document.getElementById('nombre-animal').textContent = animal.nombre;
     document.getElementById('descripcion-animal').textContent = animal.descripcion;
